@@ -16,10 +16,17 @@ module.exports = {
   },
   env: {
     browser: true,
-    node: true
+    node: true,
+    mocha: true
   },
   rules: {
     "quotes": ["error", "single"],
     "import/prefer-default-export": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "should|expect"
+      }
+    ],
   }
 };

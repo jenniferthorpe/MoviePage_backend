@@ -5,12 +5,12 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
-        poster_path: DataTypes.STRING,
+        posterPath: DataTypes.STRING,
         title: DataTypes.STRING,
-        release_date: DataTypes.DATE,
-        original_language: DataTypes.STRING,
-        vote_count: DataTypes.INTEGER,
-        vote_average: DataTypes.FLOAT,
+        releaseDate: DataTypes.DATE,
+        originalLanguage: DataTypes.STRING,
+        voteCount: DataTypes.INTEGER,
+        voteAverage: DataTypes.FLOAT,
         overview: DataTypes.TEXT,
         movieID: DataTypes.INTEGER,
         sessionID: DataTypes.STRING

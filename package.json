@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon $npm_package_main",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "nyc --reporter=html --reporter=text mocha test/**/*spec.js",
+    "test-coverage": "nyc report --reporter=text-lcov > test-results.tap && nyc report",
     "start": "NODE_ENV=production node $npm_package_main",
     "lint": "eslint ."
   },
@@ -24,12 +25,19 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "chai-like": "^1.1.1",
+    "chai-things": "^0.2.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
+    "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
-    "prettier": "^1.18.2"
+    "nyc": "^14.1.1",
+    "prettier": "^1.18.2",
+    "proxyquire": "^2.1.3"
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const express = require('express')
 const bodyParser = require('body-parser');
 const axios = require('axios');
@@ -8,14 +9,11 @@ const app = express()
 
 const { Favorite } = db;
 
-
 const port = 4500
 
 const APItmdb = axios.create({
   baseURL: 'https://api.themoviedb.org/'
 })
-
-
 
 app.options('*', cors());
 
@@ -24,15 +22,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
 app.get('/tmdb/v3/*', async (req, res, next) => {
-
   const url = req.path
   const urlTrim = url.replace('/tmdb/v3/', '/3/')
-
   try {
     const response = await APItmdb.get(urlTrim, {
       params: {
@@ -86,16 +81,16 @@ app.get('/v1/all', async (req, res, next) => {
 
 
 app.post('/v1/new/favorite', (req, res, next) => {
-  const { poster_path, title, release_date, original_language, vote_count, vote_average, overview, movieID, sessionID } = req.body
+  const { posterPath, title, releaseDate, originalLanguage, voteCount, voteAverage, overview, movieID, sessionID } = req.body
 
   try {
     Favorite.create({
-      poster_path,
+      posterPath,
       title,
-      release_date,
-      original_language,
-      vote_count,
-      vote_average,
+      releaseDate,
+      originalLanguage,
+      voteCount,
+      voteAverage,
       overview,
       movieID,
       sessionID
@@ -131,7 +126,6 @@ app.delete('/v1/delete/favorite', (req, res, next) => {
 
 
 app.post('/v1/add/favorites', (req, res, next) => {
-  console.log(`favList:${req.body}`);
   try {
     Favorite.bulkCreate(req.body)
       .then((favoriteList) => {
@@ -139,12 +133,18 @@ app.post('/v1/add/favorites', (req, res, next) => {
       });
   }
   catch (err) {
-    console.log(err);
     next(err)
   }
 });
 
+let server;
+if (process.env.NODE_ENV === 'development') {
+  server = app.listen(port, () => {
+    db.sequelize.sync({ force: true });
+  });
+}
+else {
+  server = app.listen(port)
+}
 
-app.listen(port, () => {
-  db.sequelize.sync();
-});
+module.exports = server;
